@@ -113,7 +113,19 @@ def main():
     # -----------------------------------------------------------------------------
     # Data Loading, Cleaning & Feature Engineering
     # -----------------------------------------------------------------------------
-    data = load_data("data.xlsx")   # Adjust file path if necessary.
+
+    # Replace with your GitHub raw URL
+    github_url = "https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx"
+
+    try:
+        response = requests.get(github_url)
+        response.raise_for_status()  # Raise an exception for bad status codes
+
+        data = pd.read_excel(io.StringIO(response.text))
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error loading data: {e}")
+    
     data = clean_data(data)
     data = add_aggregated_features(data)
     
