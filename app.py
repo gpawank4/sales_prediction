@@ -116,10 +116,8 @@ def main():
     # Data Loading, Cleaning & Feature Engineering
     # -----------------------------------------------------------------------------
 
-    github_url = "https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx"
-
 try:
-    response = requests.get(github_url)
+    response = requests.get("https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx")
     response.raise_for_status()  # Raise an exception for bad responses
 
     # Read the Excel file from the response content
