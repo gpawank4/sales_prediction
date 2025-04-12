@@ -116,17 +116,15 @@ def main():
     # Data Loading, Cleaning & Feature Engineering
     # -----------------------------------------------------------------------------
 
-try:
-    response = requests.get("https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx")
-    response.raise_for_status()  # Raise an exception for bad responses
+    try:
+        response = requests.get("https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx")
+        response.raise_for_status()  # Raise an exception for bad responses
 
-    # Read the Excel file from the response content
-    data = pd.read_excel(io.BytesIO(response.content))
+        # Read the Excel file from the response content
+        data = pd.read_excel(io.BytesIO(response.content))
 
-    st.dataframe(data)
-
-except requests.exceptions.RequestException as e:
-    st.error(f"Error loading data: {e}")
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error loading data: {e}")
     
     data = clean_data(data)
     data = add_aggregated_features(data)
