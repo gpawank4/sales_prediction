@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import requests
+import io
 
 # =============================================================================
 # Data Loading and Preprocessing Functions
@@ -115,17 +116,19 @@ def main():
     # Data Loading, Cleaning & Feature Engineering
     # -----------------------------------------------------------------------------
 
-    # Replace with your GitHub raw URL
     github_url = "https://raw.githubusercontent.com/gpawank4/sales_prediction/main/data.xlsx"
 
-    try:
-        response = requests.get(github_url)
-        response.raise_for_status()  # Raise an exception for bad status codes
+try:
+    response = requests.get(github_url)
+    response.raise_for_status()  # Raise an exception for bad responses
 
-        data = pd.read_excel(io.StringIO(response.text))
+    # Read the Excel file from the response content
+    data = pd.read_excel(io.BytesIO(response.content))
 
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error loading data: {e}")
+    st.dataframe(data)
+
+except requests.exceptions.RequestException as e:
+    st.error(f"Error loading data: {e}")
     
     data = clean_data(data)
     data = add_aggregated_features(data)
